@@ -198,8 +198,8 @@ class Gracenote
 
     if startrange
     body += "<RANGE>
-                <START>" + startrange + "</START>
-                <END>" + startrange + 10 "</END>
+                <START>" + startrange.to_s + "</START>
+                <END>" + (startrange+10).to_s + "</END>
             </RANGE>"
     end
 
