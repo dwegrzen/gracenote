@@ -182,7 +182,7 @@ class Gracenote
   # Arguments:
   #   name
   #   single
-  def findTVShow (name, startrange=0, single=true)
+  def findTVShow (name, startrange=1, single=true)
     if @userID == nil
       registerUser
     end
@@ -199,7 +199,7 @@ class Gracenote
     if startrange
     body += "<RANGE>
                 <START>" + startrange.to_s + "</START>
-                <END>" + (startrange+18).to_s + "</END>
+                <END>" + (startrange+19).to_s + "</END>
             </RANGE>"
     end
 
