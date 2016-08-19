@@ -70,7 +70,7 @@ class Gracenote
     end
     body = constructAlbumQueryBody(artistName, albumTitle, trackTitle, "", "ALBUM_SEARCH", matchMode)
     data = api(constructQueryReq(body))
-    return parseAlbumRES(data);
+    return data;
   end
 
   # Function: findArtist
