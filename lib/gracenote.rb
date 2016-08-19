@@ -16,29 +16,29 @@ class Gracenote
   #   userID
   #   apiURL
   def initialize (spec)
-    if(spec[:clientID].nil? || spec[:clientID] == "") 
+    if(spec[:clientID].nil? || spec[:clientID] == "")
       raise "clientID cannot be nil"
     end
     if(spec[:clientTag].nil? || spec[:clientTag] == "")
       raise "clientTag cannot be nil"
     end
-    
+
     @clientID = spec[:clientID]
     @clientTag = spec[:clientTag]
     @userID = spec[:userID].nil? ? nil : spec[:userID]
     @apiURL = "https://c" + @clientID + ".web.cddbp.net/webapi/xml/1.0/"
   end
-  
-  # public methods
-  public 
 
-  # Function: registerUser 
+  # public methods
+  public
+
+  # Function: registerUser
   # Registers a user and returns userID
   def registerUser (clientID = nil)
     if(clientID.nil?)
       clientID = @clientID + "-" + @clientTag
     end
-    
+
     if not @userID.nil?
       puts "user already registered. No need to register again"
       return @userID
@@ -56,8 +56,8 @@ class Gracenote
 
     return @userID
   end
-  
-  # Function: findTrack 
+
+  # Function: findTrack
   # Finds a track
   # Arguments:
   #   artistName
@@ -65,15 +65,15 @@ class Gracenote
   #   trackTitle
   #   matchMode
   def findTrack(artistName, albumTitle, trackTitle, matchMode = @@ALL_RESULTS)
-    if @userID == nil 
+    if @userID == nil
       registerUser
     end
     body = constructAlbumQueryBody(artistName, albumTitle, trackTitle, "", "ALBUM_SEARCH", matchMode)
     data = api(constructQueryReq(body))
     return parseAlbumRES(data);
   end
-  
-  # Function: findArtist 
+
+  # Function: findArtist
   # Finds a Artist
   # Arguments:
   #   artistName
@@ -88,17 +88,17 @@ class Gracenote
   #   artistName
   #   albumTitle
   #   trackTitle
-  #   matchMode  
+  #   matchMode
   def findAlbum(artistName, albumTitle, matchMode = @@ALL_RESULTS)
     return findTrack(artistName, albumTitle, "", matchMode)
   end
-  
+
   # Function: albumToc
   # Fetches album metadata based on a table of contents.
   # Arguments:
   #   toc
   def albumToc(toc)
-    if @userID == nil 
+    if @userID == nil
       registerUser
     end
     body = "<TOC><OFFSETS>" + toc + "</OFFSETS></TOC>"
@@ -111,7 +111,7 @@ class Gracenote
   # Arguments:
   #   gn_id
   def fetchOETData(gn_id)
-    if @userID == nil 
+    if @userID == nil
       registerUser
     end
 
@@ -128,16 +128,16 @@ class Gracenote
     data = constructQueryReq(body, "ALBUM_FETCH")
     resp = api(data)
     resp = checkRES resp
-    
+
     json = resp["RESPONSES"]
 
     output = Array.new()
-    output[:artist_origin] = json["RESPONSE"]["ALBUM"]["ARTIST_ORIGIN"].nil? ? "" : _getOETElem(json["RESPONSE"]["ALBUM"]["ARTIST_ORIGIN"]) 
+    output[:artist_origin] = json["RESPONSE"]["ALBUM"]["ARTIST_ORIGIN"].nil? ? "" : _getOETElem(json["RESPONSE"]["ALBUM"]["ARTIST_ORIGIN"])
     output[:artist_era]    = json["RESPONSE"]["ALBUM"]["ARTIST_ERA"].nil? ? "" : _getOETElem(json["RESPONSE"]["ALBUM"]["ARTIST_ERA"])
     output[:artist_type]   = json["RESPONSE"]["ALBUM"]["ARTIST_TYPE"].nil? ? "" : _getOETElem(json["RESPONSE"]["ALBUM"]["ARTIST_TYPE"])
     return output
   end
-  
+
   # TVShow methods
 
   # Function: fetchSeason
@@ -145,7 +145,7 @@ class Gracenote
   # Arguments:
   #   gn_id
   def fetchSeason (gn_id)
-    if @userID == nil 
+    if @userID == nil
       registerUser
     end
 
@@ -161,7 +161,7 @@ class Gracenote
   # Arguments:
   #   gn_id
   def fetchTVShow (gn_id)
-    if @userID == nil 
+    if @userID == nil
       registerUser
     end
 
@@ -182,19 +182,27 @@ class Gracenote
   # Arguments:
   #   name
   #   single
-  def findTVShow (name, single=true)
-    if @userID == nil 
+  def findTVShow (name, startrange=nil, single=true)
+    if @userID == nil
       registerUser
     end
 
     singleText = single ? '<MODE>SINGLE_BEST</MODE>' : ''
-  
+
     body = "<TEXT TYPE='TITLE'>" + name + "</TEXT>
             " + singleText + "
             <OPTION>
               <PARAMETER>SELECT_EXTENDED</PARAMETER>
               <VALUE>IMAGE</VALUE>
             </OPTION>"
+
+    if startrange
+    body += "<RANGE>
+                <START>" + startrange + "</START>
+                <END>" + startrange + 10 "</END>
+            </RANGE>"
+    end
+
 
     data = constructQueryReq(body, "SERIES_SEARCH")
 
@@ -207,7 +215,7 @@ class Gracenote
   # Arguments:
   #   gn_id
   def fetchContributor (gn_id)
-    if @userID == nil 
+    if @userID == nil
       registerUser
     end
 
@@ -228,7 +236,7 @@ class Gracenote
   # Arguments:
   #   name
   def findContributor (name)
-    if @userID == nil 
+    if @userID == nil
       registerUser
     end
 
@@ -240,7 +248,7 @@ class Gracenote
             </OPTION>"
 
     data = constructQueryReq(body, "CONTRIBUTOR_SEARCH")
-    
+
     resp = api(data)
     return checkRES(resp)
   end
@@ -254,7 +262,7 @@ class Gracenote
   def api (query)
     return Gracenote::HTTP.post(@apiURL, query)
   end
-  
+
   # Function: constructQueryReq
   # Constructs Query
   # Arguments:
@@ -272,7 +280,7 @@ class Gracenote
                 </QUERY>
             </QUERIES>"
   end
-  
+
   # Function: constructAlbumQueryBody
   # Constructs query body
   # Arguments:
@@ -291,21 +299,21 @@ class Gracenote
       # Otherwise, just do a search.
       # Only get the single best match if that's what the user wants.
       if matchMode == @@BEST_MATCH_ONLY
-        body += "<MODE>SINGLE_BEST_COVER</MODE>" 
+        body += "<MODE>SINGLE_BEST_COVER</MODE>"
       end
       # If a search scenario, then need the text input
-      if artist != "" 
+      if artist != ""
         body += "<TEXT TYPE=\"ARTIST\">" + artist + "</TEXT>"
       end
-      if track != "" 
+      if track != ""
         body += "<TEXT TYPE=\"TRACK_TITLE\">" + track + "</TEXT>"
       end
-      if album != "" 
+      if album != ""
         body += "<TEXT TYPE=\"ALBUM_TITLE\">" + album + "</TEXT>"
       end
     end
     # Include extended data.
-    
+
     body += "<OPTION>
               <PARAMETER>SELECT_EXTENDED</PARAMETER>
               <VALUE>COVER,REVIEW,ARTIST_BIOGRAPHY,ARTIST_IMAGE,ARTIST_OET,MOOD,TEMPO</VALUE>
@@ -325,7 +333,7 @@ class Gracenote
 
     return body
   end
-  
+
   # Function: checkRES
   # Checks an XML response and converts it into json
   # Arguments:
@@ -346,15 +354,15 @@ class Gracenote
       when "ERROR"
         raise "ERROR in response"
       when "NO_MATCH"
-        raise "No match found"
+        return "NO_MATCH"
       else
         if status != "OK"
           raise "Problems found in the response"
         end
-     end 
+     end
     return json
   end
-  
+
   # Function: parseAlbumRES
   # Parse's an XML response
   # Arguments:
@@ -370,13 +378,13 @@ class Gracenote
     data = Array.new
     if json['RESPONSES']['RESPONSE']['ALBUM'].class.to_s != 'Array'
       data.push json['RESPONSES']['RESPONSE']['ALBUM']
-    else 
+    else
       data = json['RESPONSES']['RESPONSE']['ALBUM']
     end
-    
+
     data.each do |a|
-      obj = Hash.new 
-      
+      obj = Hash.new
+
       obj[:album_gnid]         = a["GN_ID"].to_i
       obj[:album_artist_name]  = a["ARTIST"].to_s
       obj[:album_title]        = a["TITLE"].to_s
@@ -404,7 +412,7 @@ class Gracenote
       tracks = Array.new()
       if a["TRACK"].class.to_s != 'Array'
         tracks.push a["TRACK"]
-      else 
+      else
         tracks = a["TRACK"]
       end
       tracks.each do |t|
@@ -416,15 +424,15 @@ class Gracenote
         track[:track_artist_name] = t["ARTIST"].to_s
 
         # If no specific track artist, use the album one.
-        if t["ARTIST"].nil? 
+        if t["ARTIST"].nil?
           track[:track_artist_name] = obj[:album_artist_name]
         end
-        
+
         track[:mood]              = _getOETElem(t["MOOD"])
         track[:tempo]             = _getOETElem(t["TEMPO"])
 
         # If track level GOET data exists, overwrite metadata from album.
-        if not t["GENRE"].nil? 
+        if not t["GENRE"].nil?
           obj[:genre]         = _getOETElem(t["GENRE"])
         end
         if not t["ARTIST_ERA"].nil?
@@ -448,7 +456,7 @@ class Gracenote
   def merge_recursively(a, b)
     a.merge(b) {|key, a_item, b_item| merge_recursively(a_item, b_item) }
   end
-  
+
   # Function: _getAttribElem
   # Gets key value pair from a url
   # Arguments:
@@ -458,7 +466,7 @@ class Gracenote
   def _getAttribElem(data, attribute, value)
     data.each do |g|
       attrib = Rack::Utils.parse_query URI(g).query
-      if(attrib[attribute] == value) 
+      if(attrib[attribute] == value)
         return g
       end
     end
@@ -473,7 +481,7 @@ class Gracenote
     input = Array.new()
     if data.class.to_s != 'Array'
       input.push data
-    else 
+    else
       input = data
     end
     input.each do |g|
