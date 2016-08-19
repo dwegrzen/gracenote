@@ -182,7 +182,7 @@ class Gracenote
   # Arguments:
   #   name
   #   single
-  def findTVShow (name, startrange=nil, single=true)
+  def findTVShow (name, startrange=1, single=true)
     if @userID == nil
       registerUser
     end
