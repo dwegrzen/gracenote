@@ -354,7 +354,7 @@ class Gracenote
       when "ERROR"
         raise "ERROR in response"
       when "NO_MATCH"
-        raise "No match found"
+        return "NO_MATCH"
       else
         if status != "OK"
           raise "Problems found in the response"
