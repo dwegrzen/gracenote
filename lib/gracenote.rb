@@ -131,10 +131,10 @@ class Gracenote
 
     json = resp["RESPONSES"]
 
-    output = Array.new()
-    output[:artist_origin] = json["RESPONSE"]["ALBUM"]["ARTIST_ORIGIN"].nil? ? "" : _getOETElem(json["RESPONSE"]["ALBUM"]["ARTIST_ORIGIN"])
-    output[:artist_era]    = json["RESPONSE"]["ALBUM"]["ARTIST_ERA"].nil? ? "" : _getOETElem(json["RESPONSE"]["ALBUM"]["ARTIST_ERA"])
-    output[:artist_type]   = json["RESPONSE"]["ALBUM"]["ARTIST_TYPE"].nil? ? "" : _getOETElem(json["RESPONSE"]["ALBUM"]["ARTIST_TYPE"])
+    # output = Array.new()
+    # output[:artist_origin] = json["RESPONSE"]["ALBUM"]["ARTIST_ORIGIN"].nil? ? "" : _getOETElem(json["RESPONSE"]["ALBUM"]["ARTIST_ORIGIN"])
+    # output[:artist_era]    = json["RESPONSE"]["ALBUM"]["ARTIST_ERA"].nil? ? "" : _getOETElem(json["RESPONSE"]["ALBUM"]["ARTIST_ERA"])
+    # output[:artist_type]   = json["RESPONSE"]["ALBUM"]["ARTIST_TYPE"].nil? ? "" : _getOETElem(json["RESPONSE"]["ALBUM"]["ARTIST_TYPE"])
     return resp
   end
 
