@@ -334,7 +334,7 @@ class Gracenote
     # adding a range of results to increase return
     body += "<RANGE>
                 <START>1</START>
-                <END>30</END>
+                <END>20</END>
             </RANGE>"
 
     return body
