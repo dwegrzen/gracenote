@@ -117,12 +117,12 @@ class Gracenote
 
     body = "<GN_ID>" + gn_id + "</GN_ID>
               <OPTION>
-                <PARAMETER>SELECT_EXTENDED</PARAMETER>
-                  <VALUE>ARTIST_OET</VALUE>
+              <PARAMETER>SELECT_EXTENDED</PARAMETER>
+              <VALUE>ARTIST_OET,COVER</VALUE>
               </OPTION>
               <OPTION>
-                <PARAMETER>SELECT_DETAIL</PARAMETER>
-                  <VALUE>ARTIST_ORIGIN:4LEVEL,ARTIST_ERA:2LEVEL,ARTIST_TYPE:2LEVEL</VALUE>
+              <PARAMETER>SELECT_DETAIL</PARAMETER>
+              <VALUE>ARTIST_ORIGIN:4LEVEL,ARTIST_ERA:2LEVEL,ARTIST_TYPE:2LEVEL</VALUE>
               </OPTION>"
 
     data = constructQueryReq(body, "ALBUM_FETCH")
