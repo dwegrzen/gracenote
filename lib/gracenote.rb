@@ -317,19 +317,21 @@ class Gracenote
     body += "<OPTION>
             <PARAMETER>SELECT_EXTENDED</PARAMETER>
             <VALUE>COVER,ARTIST_IMAGE</VALUE>
+            <PARAMETER>COVER_SIZE</PARAMETER>
+            <VALUE>MEDIUM</VALUE>
             </OPTION>"
 
     # Include more detailed responses.
-    body += "<OPTION>
-              <PARAMETER>SELECT_DETAIL</PARAMETER>
-              <VALUE>GENRE:3LEVEL,MOOD:2LEVEL,TEMPO:3LEVEL,ARTIST_ORIGIN:4LEVEL,ARTIST_ERA:2LEVEL,ARTIST_TYPE:2LEVEL</VALUE>
-            </OPTION>"
+    # body += "<OPTION>
+    #           <PARAMETER>SELECT_DETAIL</PARAMETER>
+    #           <VALUE>GENRE:3LEVEL,MOOD:2LEVEL,TEMPO:3LEVEL,ARTIST_ORIGIN:4LEVEL,ARTIST_ERA:2LEVEL,ARTIST_TYPE:2LEVEL</VALUE>
+    #         </OPTION>"
 
     # Only want the thumbnail cover art for now (LARGE,XLARGE,SMALL,MEDIUM,THUMBNAIL)
-    body += "<OPTION>
-              <PARAMETER>COVER_SIZE</PARAMETER>
-              <VALUE>MEDIUM</VALUE>
-            </OPTION>"
+    # body += "<OPTION>
+    #           <PARAMETER>COVER_SIZE</PARAMETER>
+    #           <VALUE>MEDIUM</VALUE>
+    #         </OPTION>"
 
     # adding a range of results to increase return
     body += "<RANGE>
