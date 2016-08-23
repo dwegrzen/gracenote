@@ -314,12 +314,10 @@ class Gracenote
     end
     # Include extended data.
 
-    body += "<OPTION>
-            <PARAMETER>SELECT_EXTENDED</PARAMETER>
-            <VALUE>COVER,ARTIST_IMAGE</VALUE>
-            <PARAMETER>COVER_SIZE</PARAMETER>
-            <VALUE>MEDIUM</VALUE>
-            </OPTION>"
+    # body += "<OPTION>
+    #           <PARAMETER>SELECT_EXTENDED</PARAMETER>
+    #           <VALUE>COVER,ARTIST_IMAGE</VALUE>
+    #         </OPTION>"
 
     # Include more detailed responses.
     # body += "<OPTION>
@@ -328,10 +326,10 @@ class Gracenote
     #         </OPTION>"
 
     # Only want the thumbnail cover art for now (LARGE,XLARGE,SMALL,MEDIUM,THUMBNAIL)
-    # body += "<OPTION>
-    #           <PARAMETER>COVER_SIZE</PARAMETER>
-    #           <VALUE>MEDIUM</VALUE>
-    #         </OPTION>"
+    body += "<OPTION>
+                <PARAMETER>COVER_SIZE</PARAMETER>
+                <VALUE>MEDIUM</VALUE>
+            </OPTION>"
 
     # adding a range of results to increase return
     body += "<RANGE>
