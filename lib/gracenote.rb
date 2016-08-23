@@ -316,7 +316,7 @@ class Gracenote
 
     body += "<OPTION>
               <PARAMETER>SELECT_EXTENDED</PARAMETER>
-              <VALUE>COVER</VALUE>
+              <VALUE>RETURN_COVER</VALUE>
             </OPTION>"
 
     # Include more detailed responses.
