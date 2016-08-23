@@ -358,7 +358,8 @@ class Gracenote
     status = json['RESPONSES']['RESPONSE']['STATUS'].to_s
     case status
       when "ERROR"
-        raise "ERROR in response"
+        # raise "ERROR in response"
+        return resp
       when "NO_MATCH"
         return "NO_MATCH"
       else
