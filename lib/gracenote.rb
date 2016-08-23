@@ -314,10 +314,10 @@ class Gracenote
     end
     # Include extended data.
 
-    # body += "<OPTION>
-    #           <PARAMETER>SELECT_EXTENDED</PARAMETER>
-    #           <VALUE>COVER,ARTIST_IMAGE</VALUE>
-    #         </OPTION>"
+    body += "<OPTION>
+              <PARAMETER>SELECT_EXTENDED</PARAMETER>
+              <VALUE>COVER</VALUE>
+            </OPTION>"
 
     # Include more detailed responses.
     # body += "<OPTION>
